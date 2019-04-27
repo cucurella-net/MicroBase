@@ -1,0 +1,18 @@
+
+$resultado = mysqli_query($link,$consulta);
+
+if (! $resultado) {
+	include("cap.php");
+	print "<p>ERROR updating database !</p>\n";
+	print "</body></html>\n";
+	exit;
+}
+
+### close
+mysqli_close($link);
+
+
+### exit
+header("Location: index.php");
+
+?>

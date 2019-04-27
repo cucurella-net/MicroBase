@@ -1,0 +1,81 @@
+
+// ini vars
+$num = 1;
+
+
+
+
+print "<p><a href='new.php'>New</a></p>\n";
+print "<p>&nbsp;</p>\n";
+
+
+
+
+// conect
+require("../connect.inc.php");
+$link = connect($db_name, $db_user, $db_passwd);
+
+
+
+
+
+
+$consulta = "DESCRIBE $table";
+
+$resultado = mysqli_query($link,$consulta);
+$n = 0;
+
+while ($fila = mysqli_fetch_array($resultado)) {
+	$n++;
+	$elem = $fila[0];
+	if ($n == 2) {
+		$item1 = $elem;
+	}
+}
+
+
+
+### consulta
+$consulta = "SELECT * FROM $table";
+$resultado = mysqli_query($link,$consulta);
+
+
+
+print "<table id='etiq'>\n";
+print "<tr>\n";
+print "	<td>num</td>\n";
+print "	<td>${item1}</td>\n";
+print "	<td>&nbsp;</td>\n";
+print "</tr>\n";
+
+while ($fila = mysqli_fetch_array($resultado)) {
+	$ID1 = $fila['ID1'];
+	$item1_value = $fila["$item1"];
+
+	// sortida HTML
+	print "<tr>\n";
+	print "	<td>${num}</td>\n";
+	print "	<td><a href=\"edit.php?ID1=${ID1}\"><b>${item1_value}</b></a></td>\n";
+	print "	<td><a href=\"delete.php?ID1=${ID1}\" title=\"Delete\">[delete]</a></td>\n";
+	print "</tr>\n";
+	
+	$num++;
+}
+
+print "</table>\n";
+
+
+
+
+### tancar
+mysqli_close($link);
+
+
+?>
+
+<p>&nbsp;</p>
+<p><a href="../index.php">start</a></p>
+<p>&nbsp;</p>
+
+</body>
+</html>

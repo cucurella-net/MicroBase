@@ -1,0 +1,18 @@
+<?php
+# (c) 2017, Carles Bataller Cucurella  <cucurella@gmail.com>
+# http://www.cucurella.net/soft/microbase/
+# Released under the license GPL 2.0
+
+
+require("../config.inc.php");
+require("cap.php");
+
+print "<h2>edit</h2>\n";
+print "<p>&nbsp;</p>\n";
+
+
+// conect
+require("../connect.inc.php");
+$link = connect($db_name, $db_user, $db_passwd);
+
+

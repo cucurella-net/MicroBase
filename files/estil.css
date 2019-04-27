@@ -1,0 +1,305 @@
+/*
+ (c) 2017, Carles Bataller Cucurella  <cucurella@gmail.com>
+  http://www.cucurella.net/soft/microbase/
+  Released under the license GPL 2.0
+*/
+
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+
+/* links */
+a {
+	font-size: 12px;
+	color: #000000;
+}
+a:link {
+	color: #000000;
+	text-decoration: none;
+}
+
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+	color: #0033CC;
+}
+a:active {
+	text-decoration: none;
+}
+
+
+
+/* fila de la taula principal */
+#tots tr:hover {
+	background-color: #ececec;
+}
+
+
+
+/* formularis */
+.form {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+}
+.upload {
+	background-color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+}
+
+
+/* camp seleccionat */
+.seleccionat {
+	background-color: #E0C9C9;
+}
+
+
+
+
+
+
+/* taules */
+td {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+
+/* taula install */
+.taula1 {
+	width: 500px;
+	border-collapse: collapse;
+}
+.taula1 td {
+	/*border: 1px solid blue;*/
+	text-align: left;
+	vertical-align: middle;
+}
+
+/* columnes pars */
+.taula1 td:nth-child(2n) {
+	text-align: left;
+	width: 60%;
+}
+
+/* columnes impars */
+.taula1 td:nth-child(2n+1) {
+	text-align: right;
+	width: 40%;
+}
+
+
+
+
+
+/* taula editar */
+#edit {
+	border-collapse: collapse;
+	width: 500px;
+}
+#edit td {
+	padding: 1px;
+	/*border: 1px solid;*/
+}
+#edit .right {
+	width: 100px;
+	text-align: right;
+}
+#edit .left {
+	text-align: left;
+}
+
+
+
+
+/* taula protegir */
+#protect {
+	border-collapse: collapse;
+	width: 600px;
+}
+#protect td {
+	padding: 1px;
+	/*border: 1px solid;*/
+}
+#protect .right {
+	width: 200px;
+	text-align: right;
+}
+#protect .left {
+	text-align: left;
+}
+
+
+
+
+
+
+
+
+
+
+/* taula tots */
+#tots {
+	width: 100%;
+	border-collapse: collapse;
+}
+#tots td {
+	border: 1px solid;
+	padding: 4px;
+}
+
+
+
+/* taula resultats buscar */
+#buscar {
+	width: 100%;
+	border-collapse: collapse;
+}
+#buscar td {
+	border: 1px solid;
+	padding: 4px;
+}
+
+
+
+
+/* taula importar iCloud */
+#iCloud {
+	width: 100%;
+	border-collapse: collapse;
+}
+#iCloud td {
+	border: 1px solid;
+	padding: 4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* div form eliminar */
+#eliminar {
+	position: absolute;
+	width: 112px;
+	height: 52px;
+	z-index: 1;
+	left: 470px;
+	top: 83px;
+}
+
+/* botó eliminar */
+#eliminar .vermell {
+	font-weight: bold;
+	color: white;
+	background-color: red;
+}
+
+/* botó guardar */
+.verd {
+	font-weight: bold;
+	color: white;
+	background-color: green;
+}
+
+
+
+/* pre */
+pre {
+	font-family: 'Courier New', Courier, monospace;
+	font-weight: normal;
+	color: #000000;
+	/*background-color: #E5E7E9;*/
+	font-size: 14px;
+}
+
+
+
+
+
+
+/* taula etiqueta */
+#etiq {
+	width: 500px;
+	border-collapse: collapse;
+}
+
+#etiq td {
+	border: 1px solid;
+	padding: 4px;
+}
+
+
+/* columna par (dreta) */
+#etiq td:nth-child(2n+1) {
+	text-align: center;
+}
+
+/* fila de la taula etiq hover */
+#etiq tr:hover {
+	background-color: #ececec;
+}
+
+
+
+
+
+
+/* especial per tables petites i mobils */
+@media only screen and (max-width: 850px) {
+	#tots .col_telf {
+		display: none;
+	}
+	#tots .col_mobil {
+		display: none;
+	}
+	#tots .col_email {
+		display: none;
+	}
+	#tots .col_web {
+		display: none;
+	}
+	#tots .col_etiq {
+		/*display: none;*/
+	}
+}
+
+
+@media only screen and (max-width: 850px) {
+	#buscar .col_telf {
+		display: none;
+	}
+	#buscar .col_mobil {
+		display: none;
+	}
+	#buscar .col_email {
+		display: none;
+	}
+	#buscar .col_web {
+		display: none;
+	}
+	#tots .col_etiq {
+		/*display: none;*/
+	}
+}

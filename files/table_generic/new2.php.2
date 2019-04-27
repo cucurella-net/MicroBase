@@ -1,0 +1,21 @@
+
+$resultado = mysqli_query($link, $consulta);
+
+if ($resultado) {
+	print "<p>Insert new OK\n";
+} else {
+	print "<p>ERROR insert new !</p>\n";
+}
+
+
+
+### tancar
+mysqli_close($link);
+
+?>
+
+<p>&nbsp;</p>
+<p><a href="index.php">start</a></p>
+
+</body>
+</html>

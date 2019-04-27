@@ -1,0 +1,149 @@
+
+
+	// INSTALL.txt
+	$content = date("F j, Y, g:i a");
+	file_put_contents("INSTALL.txt", $content);
+
+
+
+	// server.inc.php
+	$content2 = "<?php\n";
+	$content2 .= "\$server = \"$server\";\n";
+	$content2 .= "?>\n";
+
+	file_put_contents("server.inc.php", $content2);
+
+
+
+	// overwrite config file?
+	if ($overwrite == "si") {
+		$content3 = "<?php\n\n";
+		$content3 .= "### database\n";
+		$content3 .= "\$db_name = \"${db_name}\";\n\n";
+		$content3 .= "### user database\n";
+		$content3 .= "\$db_user = \"${db_user}\";\n\n";
+		$content3 .= "### password user database\n";
+		$content3 .= "\$db_passwd = \"${db_passwd}\";\n\n";
+		$content3 .= "### project name\n";
+		$content3 .= "\$project_name = \"${project_name}\";\n\n";
+		if (isset($table0)) {
+			$content3 .= "### table0\n";
+			$content3 .= "\$table0 = \"${table0}\";\n\n";
+		}
+		if (isset($table1)) {
+			$content3 .= "### table1\n";
+			$content3 .= "\$table1 = \"${table1}\";\n\n";
+		}
+		if (isset($table2)) {
+			$content3 .= "### table2\n";
+			$content3 .= "\$table2 = \"${table2}\";\n\n";
+		}
+		$content3 .= "### server\n";
+		$content3 .= "if (file_exists(\"../server.inc.php\")) {\n";
+		$content3 .= "	include(\"../server.inc.php\");\n";
+		$content3 .= "}\n\n";
+		$content3 .= "?>\n";
+
+		file_put_contents("config.inc.php", $content3);	
+	}
+
+
+
+	// exit
+	mysqli_close($link);
+
+	print "<br><p><a href='index.php'><b>Install OK</b></a> !</p>\n";
+	print "</body>\n</html>\n";
+	exit;
+}
+
+
+
+
+
+
+
+
+if (file_exists("INSTALL.txt")) {
+	print "<p>&nbsp;</p>\n";
+	print "<p>Project <a href='index.php'><b>${project_name}</b></a> is already installed !</p>\n";
+	print "</body>\n</html>\n";
+	exit;
+}
+
+?>
+
+
+<script type="text/javascript">
+	window.addEventListener("load",showCamp, false);
+
+	function showCamp(){
+		if (document.forms.install.tipus.checked == true) {
+			document.getElementById('install_1').style.display='none';
+			document.getElementById('install_2').style.display='block';
+		} else {
+			document.getElementById('install_1').style.display='block';
+			document.getElementById('install_2').style.display='none';
+		}
+	}
+</script>
+
+
+
+<form name="install" action="#">
+	   <p><input type='checkbox' name='tipus' value='si' onChange='showCamp()'> Make database and user</p>
+</form>
+
+
+
+<div id="install_1">
+	<form name="install1" method="post" action="install.php">
+		<input type="hidden" name="amagat" value="3344">
+		<input type="hidden" name="crear_database" value="no">
+
+		<table class="taula1">
+			<tr><td>Overwrite config file</td><td><input type='checkbox' name='overwrite' value='si'></td></tr>
+			<tr><td>Server: </td><td><input type="text" name="server" value="localhost" required></td></tr>
+			<tr><td>Database name:</td><td><input type="text" name="db_name" value="<?php print "$db_name"; ?>" required></td></tr>
+			<tr><td>Database user:</td><td><input type="text" name="db_user" value="<?php print "$db_user"; ?>" required></td></tr>
+			<tr><td>Database password:</td><td><input type="password" name="db_passwd" value="<?php print "$db_passwd"; ?>" required></td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+		</table>
+
+		<table class="taula1">
+			<tr><td><p><input type="reset" value="Clear"></p></td><td><p><input type="submit" value="Install"></p></td></tr>
+		</table>
+	</form>
+</div>
+
+
+
+<div id="install_2">
+	<form name="install2" method="post" action="install.php">
+		<input type="hidden" name="amagat" value="3344">
+		<input type="hidden" name="crear_database" value="si">
+
+		<table class="taula1">
+			<tr><td>Overwrite config file</td><td><input type='checkbox' name='overwrite' value='si'></td></tr>
+			<tr><td>Server: </td><td><input type="text" name="server" value="localhost" required></td></tr>
+			<tr><td>Database name:</td><td><input type="text" name="db_name" value="<?php print "$db_name"; ?>" required></td></tr>
+			<tr><td>Database user:</td><td><input type="text" name="db_user" value="<?php print "$db_user"; ?>" required></td></tr>
+			<tr><td>Database password:</td><td><input type="password" name="db_passwd" value="<?php print "$db_passwd"; ?>" required></td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+		</table>
+
+		<table class="taula1">
+			<tr><td>MySQL admin user:</td><td><input type="text" name="mysql_admin_user" value="root" required></td></tr>
+			<tr><td>MySQL admin password:</td><td><input type="password" name="mysql_admin_passwd"></td></tr>
+		</table>
+
+		<table class="taula1">
+			<tr><td><p><input type="reset" value="Clear"></p></td><td><p><input type="submit" value="Install"></p></td></tr>
+		</table>
+	</form>
+</div>
+
+
+
+</body>
+</html>

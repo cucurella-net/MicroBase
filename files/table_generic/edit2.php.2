@@ -1,0 +1,23 @@
+
+$resultado = mysqli_query($link,$consulta);
+
+if ($resultado) {
+	print "<p>Update OK !</p>\n";
+} else {
+	print "<p>[1] ERROR updating database !</p>\n";
+}
+
+
+
+### tancar
+mysqli_close($link);
+
+
+### links
+print "<p>&nbsp;</p>\n";
+print "<p><a href=\"index.php\">start</a></p>\n";
+
+?>
+
+</body>
+</html>

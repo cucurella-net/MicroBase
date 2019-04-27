@@ -1,0 +1,130 @@
+<?php
+# (c) 2017, Carles Bataller Cucurella  <cucurella@gmail.com>
+# http://www.cucurella.net/soft/microbase/
+# Released under the license GPL 2.0
+
+
+require("config.inc.php");
+require("cap.php");
+
+
+print "<h2>${project_name} install</h2>";
+
+
+// form enviat?
+if(isset($_POST['amagat'])) {
+	$amagat = $_POST['amagat'];
+} else {
+	$amagat = "";
+}
+
+
+
+// form enviat!
+if ($amagat == "3344") {
+
+	// vars form
+	$server = $_POST['server'];
+	$db_name = $_POST['db_name'];
+	$db_user = $_POST['db_user'];
+	$db_passwd = $_POST['db_passwd'];
+
+	if (isset($_POST['overwrite'])) {
+		$overwrite = $_POST['overwrite'];
+	} else {
+		$overwrite = "no";
+	}
+	
+
+	// rtrim
+	$server = rtrim($server);
+	$db_name = rtrim($db_name);
+	$db_user = rtrim($db_user);
+	$db_passwd = rtrim($db_passwd);
+
+
+
+	// make database?
+	$crear_database = $_POST['crear_database'];
+		
+	if ($crear_database == "si") {
+
+		// vars form
+		$mysql_admin_user = $_POST['mysql_admin_user'];
+		$mysql_admin_passwd = $_POST['mysql_admin_passwd'];
+
+
+		// rtrim
+		$mysql_admin_user = rtrim($mysql_admin_user);
+		$mysql_admin_passwd = rtrim($mysql_admin_passwd);
+
+
+
+		// ################## database (like root) ####################
+
+		// connect database with mysql admin user (root)
+		$link = mysqli_connect($server,$mysql_admin_user,$mysql_admin_passwd);
+	
+		if (! $link) {
+			print "ERROR connecting to server $server with user $mysql_admin_user !\n";
+			die("Bad password ?\n");
+		}
+
+		// database exists?
+		$db_selected = mysqli_select_db($link, "$db_name");
+
+		if ($db_selected) {
+			print "Database $db_name already exists.\n";
+		} else {
+			// if not exists, create database
+			$result = mysqli_query($link,"create database $db_name");
+
+			if ($result) {
+				print "<p>Database <b>${db_name}</b> created correctly</p>\n";
+			} else {
+				print "<p>ERROR creating database <b>${db_name}</b> !</p>\n";
+				exit;
+			}
+		}
+
+
+		// privileges to user
+		$ordre_1 = "GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'localhost' IDENTIFIED BY '${db_passwd}' WITH GRANT OPTION;\n";
+		$ordre_2 = "GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'%' IDENTIFIED BY '${db_passwd}' WITH GRANT OPTION;\n";
+
+		$resultat_ordre_1 = mysqli_query($link, $ordre_1);
+		$resultat_ordre_2 = mysqli_query($link, $ordre_2);
+
+		if ($resultat_ordre_1) {
+			print "<p>User ${db_user} correctly created for localhost</p>\n";
+		} else {
+			die("ERROR creating user ${db_user} for localhost !\n" . mysql_error() . "\n");
+		}
+	
+		if ($resultat_ordre_2) {
+			print "<p>User ${db_user} correctly created for any machine</p>\n";
+		} else {
+			die("ERROR creating user ${db_user} for any machine !\n" . mysql_error() . "\n");
+		}
+
+
+		// close
+		mysqli_close($link);
+		unset($link);
+	}
+
+
+
+
+
+
+	// ################## tables (like user) ####################
+	
+	// connect database with normal user
+	$link = mysqli_connect($server,$db_user,$db_passwd,$db_name);
+
+	if (! $link) {
+		print "<p>ERROR connecting server $server in database $db_name with $db_user !</p>\n";
+		die("Bad user or password ?\n");
+	}
+

@@ -1,0 +1,22 @@
+
+<database name="agenda23" user="carles" passwd="43qw54r" collate="utf8_spanish_ci">
+
+	<table name="agenda_contactes">
+		<!-- <item name="ID0" type="int(12)" value="NOT NULL AUTO_INCREMENT"></item> NOT NECESSARY !! -->
+		<item name="nom" type="varchar(50)" value="NULL"></item>
+		<item name="adress" type="varchar(50)" value="NULL"></item>
+		<item name="CP" type="varchar(20)" value="NULL"></item>
+		<item name="ciutat" type="varchar(50)" value="NULL"></item>
+		<item name="telf" type="varchar(50)" value="NULL"></item>
+		<item name="mobil" type="varchar(50)" value="NULL"></item>
+		<item name="email" type="varchar(50)" value="NULL"></item>
+		<item name="web" type="varchar(100)" value="NULL"></item>
+		<item name="etiqueta" type="varchar(1000)" value="NULL"></item>
+	</table>
+
+	<table name="agenda_etiquetes">
+		<!-- <item name="ID1" type="int(12)" value="NOT NULL AUTO_INCREMENT"></item> NOT NECESSARY !! -->
+		<item name="etiqueta" type="varchar(50)" value="NULL"></item>
+	</table>
+
+</database>

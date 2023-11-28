@@ -31,11 +31,11 @@ Requeriments (Debian):
 Requeriments (FreeBSD):
 
     Necessary:
-        php56
-        php56-mysqli
-        mysql56-server
-        php56-simplexml
-        mod_php56
+        php56 (or sup.)
+        php56-mysqli (or sup.)
+        mysql56-server (or sup.)
+        php56-simplexml (or sup.)
+        mod_php56 (or sup.)
         apache24
 
  

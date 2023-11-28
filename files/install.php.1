@@ -1,5 +1,5 @@
 <?php
-# (c) 2017, Carles Bataller Cucurella  <cucurella@gmail.com>
+# (c) 2022, Carles Bataller Cucurella  <cucurella@gmail.com>
 # http://www.cucurella.net/soft/microbase/
 # Released under the license GPL 2.0
 
@@ -62,50 +62,93 @@ if ($amagat == "3344") {
 
 		// ################## database (like root) ####################
 
+
 		// connect database with mysql admin user (root)
-		$link = mysqli_connect($server,$mysql_admin_user,$mysql_admin_passwd);
-	
-		if (! $link) {
-			print "ERROR connecting to server $server with user $mysql_admin_user !\n";
-			die("Bad password ?\n");
-		}
-
-		// database exists?
-		$db_selected = mysqli_select_db($link, "$db_name");
-
-		if ($db_selected) {
-			print "Database $db_name already exists.\n";
-		} else {
-			// if not exists, create database
-			$result = mysqli_query($link,"create database $db_name");
-
-			if ($result) {
-				print "<p>Database <b>${db_name}</b> created correctly</p>\n";
+		function conectar($server,$mysql_admin_user,$mysql_admin_passwd) {
+			$link = mysqli_connect($server,$mysql_admin_user,$mysql_admin_passwd);
+			if ($link) {
+				print "<p>Connect to server $server with user $mysql_admin_user ... <b>[ OK ]</b></p>\n";
+				return $link;
 			} else {
-				print "<p>ERROR creating database <b>${db_name}</b> !</p>\n";
-				exit;
+				throw new Exception();
 			}
 		}
 
+		try {
+			$link = conectar($server,$mysql_admin_user,$mysql_admin_passwd);
+		} catch (Exception $e) {
+			print "<p>Connect to server $server with user $mysql_admin_user ... <b>[ ERROR ]</b></p>\n";
+			print "<p>Bad password ?</p>\n";
+			die("</body>\n</html>");	
+		}
+
+
+
+		// database exists?
+		$object = mysqli_query($link, "SHOW DATABASES LIKE '${db_name}';");
+
+		if ($object -> {"num_rows"} == 0) {
+			print "<p>Database <b>${db_name}</b> not exists, creating...</p>\n";
+		} else {
+			print "<p>Database <b>${db_name}</b> already exists.</p>\n";
+		}
+
+
+
+		// create database if not exists
+		$result = mysqli_query($link,"CREATE DATABASE IF NOT EXISTS ${db_name};");
+
+		if ($result) {
+			print "<p>Create database <b>${db_name}</b> if not exists ... <b>[ OK ]</b></p>\n";
+		} else {
+			print "<p>Create database <b>${db_name}</b> if not exists ... <b>[ ERROR ]</b></p>\n";
+			die("</body>\n</html>");
+		}
+
+
 
 		// privileges to user
-		$ordre_1 = "GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'localhost' IDENTIFIED BY '${db_passwd}' WITH GRANT OPTION;\n";
-		$ordre_2 = "GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'%' IDENTIFIED BY '${db_passwd}' WITH GRANT OPTION;\n";
+		$ordre_1 = "CREATE USER IF NOT EXISTS '${db_user}'@'${server}' IDENTIFIED BY 'fZyR34H3n5Kn2_';";
+		$ordre_2 = "ALTER USER '${db_user}'@'${server}' IDENTIFIED BY '$db_passwd';";
+		$ordre_3 = "GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'${server}';";
 
+
+
+		// exec
 		$resultat_ordre_1 = mysqli_query($link, $ordre_1);
 		$resultat_ordre_2 = mysqli_query($link, $ordre_2);
+		$resultat_ordre_3 = mysqli_query($link, $ordre_3);
 
-		if ($resultat_ordre_1) {
-			print "<p>User ${db_user} correctly created for localhost</p>\n";
+
+
+		// resultat
+		if (($resultat_ordre_1) && ($resultat_ordre_2) && ($resultat_ordre_3)  ) {
+			print "<p>Create MySQL user ${db_user} for database ${db_name} in localhost ... <b>[ OK ]</b></p>\n";
 		} else {
-			die("ERROR creating user ${db_user} for localhost !\n" . mysql_error() . "\n");
+			if ($resultat_ordre_1) {
+				print "<p>Create MySQL user ${db_user} ... <b>[ OK ]</b></p>\n";
+			} else {
+				print "<p>Create MySQL user ${db_user} ... <b>[ ERROR ]</b></p>\n";
+			}
+			if ($resultat_ordre_2) {
+				print "<p>Set password MySQL user ${db_user} ... <b>[ OK ]</b></p>\n";
+			} else {
+				print "<p>Set password MySQL user ${db_user} ... <b>[ ERROR ]</b><br>\n";
+
+				print "<span style='margin-left: 30px;'>(this password probably does not comply with MySQL's password security policy)</span><br>\n";
+				print "<span style='margin-left: 30px;'>(try a more complex password)</span></p>\n";
+			}
+			if ($resultat_ordre_3) {
+				print "<p>Assign privileges to MySQL user ${db_user} for database ${db_name} ... <b>[ OK ]</b></p>\n";
+			} else {
+				print "<p>Assign privileges to MySQL user ${db_user} for database ${db_name} ... <b>[ ERROR ]</b></p>\n";
+			}
+
+			print "<p>&nbsp;</p>\n";
+			print "<p><b>ERROR:</b> Could not create MySQL user ${db_user} for database ${db_name} on localhost !</p>\n";
+			die("</body>\n</html>");
 		}
-	
-		if ($resultat_ordre_2) {
-			print "<p>User ${db_user} correctly created for any machine</p>\n";
-		} else {
-			die("ERROR creating user ${db_user} for any machine !\n" . mysql_error() . "\n");
-		}
+
 
 
 		// close
@@ -120,11 +163,22 @@ if ($amagat == "3344") {
 
 	// ################## tables (like user) ####################
 	
-	// connect database with normal user
-	$link = mysqli_connect($server,$db_user,$db_passwd,$db_name);
-
-	if (! $link) {
-		print "<p>ERROR connecting server $server in database $db_name with $db_user !</p>\n";
-		die("Bad user or password ?\n");
+	// connect database with normal user ($db_user)
+	function conectar2($server, $db_user, $db_passwd, $db_name) {
+		$link = mysqli_connect($server, $db_user, $db_passwd, $db_name);
+		if ($link) {
+			print "<p>Connect to server $server with MySQL user $db_user ... <b>[ OK ]</b></p>\n";
+			return $link;
+		} else {
+			throw new Exception();
+		}
 	}
+
+	try {
+		$link = conectar2($server, $db_user, $db_passwd, $db_name);
+	} catch (Exception $e) {
+		print "<p>Connect to server $server with MySQL user $db_user ... <b>[ ERROR ]</b></p>\n";
+		die("</body>\n</html>");
+	}
+
 

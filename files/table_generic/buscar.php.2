@@ -1,0 +1,141 @@
+
+
+
+// ini vars
+$num = 1;
+
+
+
+
+// conect
+require("../connect.inc.php");
+$link = connect($db_name, $db_user, $db_passwd);
+
+
+
+
+
+
+$consulta = "DESCRIBE $table";
+
+$resultado = mysqli_query($link,$consulta);
+
+$n = 0;
+
+while ($fila = mysqli_fetch_array($resultado)) {
+	$elem = $fila[0];
+	//print "item${n} -> ${elem}<br>\n";
+
+	if ($n == 1) {
+		$item1 = $elem;
+	}
+	if ($n == 2) {
+		$item2 = $elem;
+	}
+	
+	$n++;
+}
+
+
+
+
+
+
+print "<h3>Search</h3>\n";
+
+
+if (isset($_POST['amagat'])) {
+	$amagat = $_POST['amagat'];
+} else {
+	$amagat = "";
+}
+
+
+// formulari enviat?
+if ($amagat == "3294") {
+
+	$abuscar = $_POST['abuscar'];
+
+	# tallem break return
+	$abuscar = trim($abuscar);
+
+	print "<p>String <b>${abuscar}</b> found in:</p>\n";
+
+	
+	print "<table id='etiq'>\n";
+	print "<tr>\n";
+	print "	<td>num</td>\n";
+	print "	<td>${item1}</td>\n";
+	print "	<td>${item2}</td>\n";
+	print "	<td>&nbsp;</td>\n";
+	print "</tr>\n";
+
+
+
+	### consulta
+	$consulta = "SELECT * FROM ${table};";
+	$res = mysqli_query($link, $consulta);
+
+
+	while ($tupla = mysqli_fetch_array($res)) {
+
+		$ID0 = $tupla['ID0'];
+		$item1_value = $tupla["$item1"];
+		$item2_value = $tupla["$item2"];
+
+
+		$linea = "${item1_value} ${item2_value}";
+		$trovat = preg_match("/${abuscar}/i", $linea);
+
+		if ($trovat) {
+			// sortida HTML
+			print "<tr>\n";
+			print "	<td>${num}</td>\n";
+			print "	<td><a href=\"edit.php?ID0=${ID0}\"><b>${item1_value}</b></a></td>\n";
+			print "	<td>${item2_value}</td>\n";
+			print "	<td><a href=\"delete.php?ID0=${ID0}\" title=\"Delete\">[delete]</a></td>\n";
+			print "</tr>\n";
+			
+			$num++;
+		}
+	}
+
+	print "</table>\n";
+
+
+	### tancar
+	if ($resultado) { mysqli_free_result($resultado); }
+	if ($res) { mysqli_free_result($res); }
+
+	print "<p>&nbsp;</p>\n";
+	print "<p><a href='buscar.php'>search already</a></p>\n";
+	print "<p><a href='index.php'>start</a></p>\n";
+	print "</body>\n</html>\n";
+
+
+	### tancar
+	mysqli_close($link);
+
+
+	exit;
+}
+
+
+
+
+
+
+
+?>
+
+<form name="buscar" method="post" action="buscar.php">
+	<input type="hidden" name="amagat" value="3294">
+	<p><input type="text" name="abuscar" size="30" maxlength="50" class="form" required> &nbsp;
+		<input type="submit" value="buscar" class="form"></p>
+</form>
+
+
+<p>&nbsp;</p>
+<p><a href="index.php">Cancel</a></p>
+</body>
+</html>

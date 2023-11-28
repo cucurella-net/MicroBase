@@ -1,5 +1,5 @@
 <?php
-# Copyright © 2017, Carles Bataller Cucurella  <cucurella@gmail.com>
+# Copyright © 2017-2022, Carles Bataller Cucurella  <cucurella@gmail.com>
 # http://www.cucurella.net/soft/microbase/
 # Released under the license GPL 2.0
 
@@ -24,7 +24,7 @@ if (isset($argv[1])) {
 $arxiu = "${project}/SCHEME.xml";
 if (! file_exists("$arxiu")) {
 	print "ERROR: File '$arxiu' NOT FOUND !\n";
-	print "Please run: php GO.php \"projectname\"\n\n";
+	print "Please run: php GO.php \"$project\"\n\n";
 	exit;
 }
 

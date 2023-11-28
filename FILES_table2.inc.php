@@ -1310,8 +1310,17 @@ if (isset($xml->table[2]['name'])) {
 	$frase .= " 	print \"</body></html>\";\n";
 	$frase .= " 	exit;\n";
 	$frase .= "}\n\n\n";
+
+	file_put_contents("$arxiu", $frase, FILE_APPEND);
+
+
+
+
+	$frase = "// conectar\n";
+	$frase .= "require(\"../connect.inc.php\");\n";
+	$frase .= "\$link = connect(\$db_name, \$db_user, \$db_passwd);\n\n\n\n";
 	
-	$frase .= "// vars form\n";
+	$frase .= "// dades form\n";
 
 	file_put_contents("$arxiu", $frase, FILE_APPEND);
 
@@ -1498,15 +1507,12 @@ if (isset($xml->table[2]['name'])) {
 
 
 
-	$frase = "// conectar\n";
-	$frase .= "require(\"../connect.inc.php\");\n";
-	$frase .= "\$link = connect(\$db_name, \$db_user, \$db_passwd);\n\n";
+
+
+	$frase = "\n\n\n// consulta\n";
 	$frase .= "\$consulta = \"UPDATE \$table2 SET\n";
 
 	file_put_contents("$arxiu", $frase, FILE_APPEND);
-
-
-
 
 
 	// item0 sql
@@ -1735,6 +1741,28 @@ if (isset($xml->table[2]['name'])) {
 
 
 
+
+
+	// #########################
+	//          buscar.php
+	// #########################
+
+	// cap
+	$arxiu = "$project/table2/buscar.php";
+	copy("files/table_generic/buscar.php.1", "$arxiu");
+
+
+	$frase = "\$table = \$table2;\n";	
+	file_put_contents("$arxiu", $frase, FILE_APPEND);
+
+
+	// peu buscar.php
+	$arxiu = "$project/table2/buscar.php";
+	$content = file_get_contents("files/table_generic/buscar.php.2");
+	file_put_contents("$arxiu", $content, FILE_APPEND);
+
+	//        END buscar.php
+	// #########################
 
 
 

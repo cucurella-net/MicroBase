@@ -86,6 +86,10 @@ if (file_exists("INSTALL.txt")) {
 			document.getElementById('install_2').style.display='none';
 		}
 	}
+	
+	function hideShowPassword() {
+		document.install2.mysql_admin_passwd.setAttribute("type", document.install2.verp.checked ? "text" : "password");
+	}
 </script>
 
 
@@ -106,7 +110,7 @@ if (file_exists("INSTALL.txt")) {
 			<tr><td>Server: </td><td><input type="text" name="server" value="localhost" required></td></tr>
 			<tr><td>Database name:</td><td><input type="text" name="db_name" value="<?php print "$db_name"; ?>" required></td></tr>
 			<tr><td>Database user:</td><td><input type="text" name="db_user" value="<?php print "$db_user"; ?>" required></td></tr>
-			<tr><td>Database password:</td><td><input type="password" name="db_passwd" value="<?php print "$db_passwd"; ?>" required></td></tr>
+			<tr><td>Database password:</td><td><input type="text" name="db_passwd" value="<?php print "$db_passwd"; ?>" required></td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 		</table>
 
@@ -128,13 +132,20 @@ if (file_exists("INSTALL.txt")) {
 			<tr><td>Server: </td><td><input type="text" name="server" value="localhost" required></td></tr>
 			<tr><td>Database name:</td><td><input type="text" name="db_name" value="<?php print "$db_name"; ?>" required></td></tr>
 			<tr><td>Database user:</td><td><input type="text" name="db_user" value="<?php print "$db_user"; ?>" required></td></tr>
-			<tr><td>Database password:</td><td><input type="password" name="db_passwd" value="<?php print "$db_passwd"; ?>" required></td></tr>
+			<tr><td>Database password:</td><td><input type="text" name="db_passwd" value="<?php print "$db_passwd"; ?>" required></td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 		</table>
 
 		<table class="taula1">
 			<tr><td>MySQL admin user:</td><td><input type="text" name="mysql_admin_user" value="root" required></td></tr>
-			<tr><td>MySQL admin password:</td><td><input type="password" name="mysql_admin_passwd"></td></tr>
+			<tr>
+				<td>MySQL admin password:</td>
+				<td>
+					<div class='inline'><input type="password" name="mysql_admin_passwd"></div>
+					<div class='inline'><input type='checkbox' name='verp' onChange="hideShowPassword()"></div>
+					<div class='inline'>Show</div>
+				</td>
+			</tr>
 		</table>
 
 		<table class="taula1">

@@ -1,12 +1,10 @@
 
-MicroBase
-
-Simple PHP and MySQL develop environment
+MicroBase, simple PHP and MySQL develop environment
 
 
 Characteristics:
-	version 1.3.2
-	last mod: May 1, 2018
+	version 1.3.6
+	last mod: September 1, 2022
 	max num tables: 3
 	max num items in table: 16
 
@@ -51,7 +49,7 @@ Use:
 
 
 
-Copyright © 2018, Carles Bataller Cucurella <cucurella@gmail.com>
+Copyright © 2018-2022, Carles Bataller Cucurella <cucurella@gmail.com>
 http://www.cucurella.net/soft/microbase/
 Released under the license GPL 2.0
 

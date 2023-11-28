@@ -1,5 +1,5 @@
 <?php
-# Copyright © 2017, Carles Bataller Cucurella  <cucurella@gmail.com>
+# Copyright © 2017-2022, Carles Bataller Cucurella  <cucurella@gmail.com>
 # http://www.cucurella.net/soft/microbase/
 # Released under the license GPL 2.0
 
@@ -16,7 +16,7 @@ print "==============================\n\n";
 if (isset($argv[1])) {
 	$project = $argv[1];
 } else {
-	print " Copyright © 2017 Carles Bataller Cucurella <cucurella@gmail.com>\n";
+	print " Copyright © 2017-2022 Carles Bataller Cucurella <cucurella@gmail.com>\n";
 	print " http://www.cucurella.net/soft/microbase/\n";
 	print " Released under the license GPL 2.0\n\n\n";
 
@@ -27,7 +27,9 @@ if (isset($argv[1])) {
 
 
 // dir
-if (! is_dir($project)) {
+if (is_dir($project)) {
+	print "ERROR: Project \"$project\" already exists!\n";
+} else {
 	mkdir($project, 0755);
 }
 
@@ -119,7 +121,7 @@ if (file_exists("$project/SCHEME.xml")) {
 		fclose($fp);
 
 		if (file_exists("$project/SCHEME.xml")) {
-			print "OK, '$project/SCHEME.xml' created correctly\n\n";
+			print "OK, \"$project/SCHEME.xml\" created correctly\n\n";
 
 			print "Now...\n";
 			print "  1- edit  '$project/SCHEME.xml'  and configure yours database and tables\n";
